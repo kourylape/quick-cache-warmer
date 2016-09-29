@@ -40,8 +40,8 @@ class Crawler:
         try:
             count = 0
             for event, elem in ElementTree.iterparse(req.raw):
-                if elem.tag ==
-                '{http://www.sitemaps.org/schemas/sitemap/0.9}loc':
+                if elem.tag == ('{http://www.sitemaps.org/schemas/'
+                                'sitemap/0.9}loc'):
                     count = count + 1
                     if count <= limit or limit == 0:
                         self.urls.append(elem.text)
