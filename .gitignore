@@ -1,0 +1,5 @@
+key.json
+crawler-log.csv
+.DS_Store
+*.pyc
+.env
