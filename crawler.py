@@ -23,6 +23,8 @@ class Crawler:
 
     def warm_url(self, url):
         try:
+            delay = float(os.environ.get('DELAY', 500))
+            time.sleep(delay / 1000.0)
             warmer = requests.get(url, headers=self.headers)
             result = [url.encode("utf-8"), warmer.status_code,
                       (warmer.elapsed.microseconds / 1000), warmer.is_redirect]
