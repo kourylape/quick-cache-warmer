@@ -23,6 +23,9 @@ if __name__ == "__main__":
     parser.add_argument(
         '-i', '--id', metavar='', type=int,
         help='The unique Analytics view (profile ID).')
+    parser.add_argument(
+        '-o', '--offset', metavar='', type=int,
+        help=('The number of items to offset. (only works with sitemap.xml)'))
 
     req_parser = parser.add_argument_group('required arguments')
     req_parser.add_argument(
@@ -74,7 +77,8 @@ if __name__ == "__main__":
     started = time.time()
     crawler = Crawler()
     if args.sitemap is not None:
-        crawler.sitemap_crawler(args.sitemap, args.count)
+        offset = args.offset if (args.offset is not None) else 0
+        crawler.sitemap_crawler(args.sitemap, args.count, offset)
     else:
         crawler.google_crawler('ga:%i' % args.id, args.count)
 

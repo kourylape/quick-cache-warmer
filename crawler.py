@@ -33,22 +33,27 @@ class Crawler:
             print 'ERROR - Could not crawl %s' % url
             pass
 
-    def sitemap_crawler(self, sitemap, limit):
+    def sitemap_crawler(self, sitemap, limit, offset):
         limit = limit if (limit >= 0 and limit <= 10000) else 1000
         req = requests.get(sitemap, headers=self.headers, stream=True)
         req.raw.decode_content = True
         if req.status_code != 200:
             raise CrawlerError('ERROR - Invalid Sitemap.XML file!')
         try:
+            total = 0
             count = 0
             for event, elem in ElementTree.iterparse(req.raw):
                 if elem.tag == ('{http://www.sitemaps.org/schemas/'
                                 'sitemap/0.9}loc'):
                     count = count + 1
-                    if count <= limit or limit == 0:
-                        self.urls.append(elem.text)
+                    if count > offset:
+                        if total < limit or limit == 0:
+                            self.urls.append(elem.text)
+                            total = total + 1
+                        else:
+                            break
                     else:
-                        break
+                        continue
             return self.urls
         except Exception as e:
             raise CrawlerError('ERROR - Could not parse the Sitemap.XML file!')
