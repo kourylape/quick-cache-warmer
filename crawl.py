@@ -130,7 +130,8 @@ if __name__ == "__main__":
                 {
                     "fallback": subject,
                     "color": "#36a64f",
-                    "text": "Quick Cache Warmer - Warmed %i pages in %i minutes on %s://%s" % (
+                    "pretext": "Quick Cache Warmer",
+                    "text": "Warmed %i pages in %i minutes on %s://%s" % (
                         num_warmed, finished, protocol, domain
                     )
                 }
