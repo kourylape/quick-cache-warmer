@@ -37,6 +37,7 @@ The script makes use of a `.env` file in the project directory. You can get star
 | `SMTP_PORT` | `SMTP_PORT=587` | The SMTP server port. |
 | `SMTP_FROM` | `SMTP_FROM=no-reply@example.com` | The SMTP server from address. If using [Mailgun](https://www.mailgun.com/), this likely will be the same as `SMTP_USERNAME`. |
 | `SMTP_RECIPIENTS` | `SMTP_RECIPIENTS=email1@example.com` | The email addresses that the final report will be sent to. Multiple email address need to be separated with a comma. |
+| `WEBHOOK` | `WEBHOOK=URL` | A Slack webhook URL, if this is set an email will not be sent. |
 
 
 Usage

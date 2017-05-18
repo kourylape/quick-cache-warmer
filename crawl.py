@@ -1,4 +1,5 @@
 import requests
+import json
 import sys
 import time
 import csv
@@ -118,13 +119,33 @@ if __name__ == "__main__":
             ) % (num_warmed, finished)
     attachments = ['%s/crawler-log.csv' % PATH]
 
+    webhook = os.environ.get('WEBHOOK', False)
+    protocol = os.environ.get('PROTOCOL', 'https')
+    domain = os.environ.get('DOMAIN', False)
+
+    # Send a Slack Webhook
+    if webhook:
+        payload = {
+            'attachments': [
+                {
+                    "fallback": subject,
+                    "color": "#36a64f",
+                    "pretext": "Quick Cache Warmer",
+                    "text": "Warmed %i pages in %i minutes on %s://%s" % (
+                        num_warmed, finished, protocol, domain
+                    )
+                }
+            ]
+        }
+        r = requests.post(webhook, data=json.dumps(payload))
+    else:
     # Send the Email
-    try:
-        emailer.send_email(html, subject, attachments)
-        sys.exit(0)
-    except EmailerError as e:
-        print e
-        sys.exit(-1)
+        try:
+            emailer.send_email(html, subject, attachments)
+            sys.exit(0)
+        except EmailerError as e:
+            print e
+            sys.exit(-1)
 
     # safely exit
     sys.exit(0)
